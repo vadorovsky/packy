@@ -1,0 +1,16 @@
+[package]
+name = "unseal"
+version = "0.0.1"
+authors = ["vadorovsky <vadorovsky@protonmail.com>"]
+description = "CLI tool for unpacking archives"
+repository = "https://github.com/vadorovsky/unseal"
+license = "MIT"
+edition = "2021"
+
+[dependencies]
+anyhow = "1"
+bzip2 = "0.4"
+clap = { version = "4.3", features = ["derive"] }
+flate2 = "1.0"
+tar = "0.4"
+xz2 = "0.1"
