@@ -17,29 +17,29 @@ jobs:
         include:
           - os: ubuntu-latest
             cross: true
-            artifact_name: circom
+            artifact_name: unseal
             target: x86_64-unknown-linux-musl
-            asset_name: circom-linux-amd64
+            asset_name: unseal-linux-amd64
           - os: ubuntu-latest
             cross: true
-            artifact_name: circom
+            artifact_name: unseal
             target: aarch64-unknown-linux-musl
-            asset_name: circom-linux-arm64
+            asset_name: unseal-linux-arm64
           - os: windows-latest
             cross: false
-            artifact_name: circom.exe
+            artifact_name: unseal.exe
             target: x86_64-pc-windows-msvc
-            asset_name: circom-windows-amd64.exe
+            asset_name: unseal-windows-amd64.exe
           - os: macos-latest
             cross: false
-            artifact_name: circom
+            artifact_name: unseal
             target: x86_64-apple-darwin
-            asset_name: circom-macos-amd64
+            asset_name: unseal-macos-amd64
           - os: macos-latest
             cross: false
-            artifact_name: circom
+            artifact_name: unseal
             target: aarch64-apple-darwin
-            asset_name: circom-macos-arm64
+            asset_name: unseal-macos-arm64
 
     steps:
       - name: Checkout project
@@ -65,10 +65,10 @@ jobs:
           rustup target add ${{ matrix.target }}
           cargo build --verbose --release --target ${{ matrix.target }}
 
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          file: target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
-          asset_name: ${{ matrix.asset_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            ${{ matrix.asset_name }}
