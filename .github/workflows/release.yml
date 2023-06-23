@@ -8,6 +8,9 @@ env:
   CARGO_TERM_COLOR: always
   CROSS_VERSION: 0.2.5
 
+permissions:
+  contents: write
+
 jobs:
   build-and-publish:
     name: Publish for ${{ matrix.os }} ${{ matrix.target }}
