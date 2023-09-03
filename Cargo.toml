@@ -14,3 +14,4 @@ clap = { version = "4.3", features = ["derive"] }
 flate2 = "1.0"
 tar = "0.4"
 xz2 = "0.1"
+zip = "0.6"
