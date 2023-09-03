@@ -1,6 +1,6 @@
 [package]
 name = "packy"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["vadorovsky <vadorovsky@protonmail.com>"]
 description = "CLI tool for unpacking archives"
 repository = "https://github.com/vadorovsky/packy"
