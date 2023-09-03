@@ -20,7 +20,7 @@ enum ArchiveType {
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-    /// Path to the archive to unseal.
+    /// Path to the archive to packy.
     #[arg(required = true, index = 1)]
     input: PathBuf,
     /// Directory to unpack the archive into.
@@ -55,17 +55,17 @@ fn main() -> anyhow::Result<()> {
         ArchiveType::Gzip => {
             let decoder = GzDecoder::new(buf);
             let mut archive = Archive::new(decoder);
-            unseal(&mut archive, args)?;
+            packy(&mut archive, args)?;
         }
         ArchiveType::Bzip2 => {
             let decoder = BzDecoder::new(buf);
             let mut archive = Archive::new(decoder);
-            unseal(&mut archive, args)?;
+            packy(&mut archive, args)?;
         }
         ArchiveType::Xz => {
             let decoder = XzDecoder::new(buf);
             let mut archive = Archive::new(decoder);
-            unseal(&mut archive, args)?;
+            packy(&mut archive, args)?;
         }
         ArchiveType::Unknown => {
             eprintln!("The file is neither a gzip nor a bzip2 archive");
@@ -76,7 +76,7 @@ fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
-fn unseal<R: Read>(archive: &mut Archive<R>, args: Args) -> anyhow::Result<()> {
+fn packy<R: Read>(archive: &mut Archive<R>, args: Args) -> anyhow::Result<()> {
     let entries = archive.entries()?;
     for entry in entries {
         let mut entry = entry?;

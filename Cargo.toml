@@ -1,9 +1,9 @@
 [package]
-name = "unseal"
+name = "packy"
 version = "0.0.1"
 authors = ["vadorovsky <vadorovsky@protonmail.com>"]
 description = "CLI tool for unpacking archives"
-repository = "https://github.com/vadorovsky/unseal"
+repository = "https://github.com/vadorovsky/packy"
 license = "MIT"
 edition = "2021"
 
