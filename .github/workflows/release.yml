@@ -60,17 +60,17 @@ jobs:
         if: matrix.cross == true
         run: |
           cross build --verbose --release --target ${{ matrix.target }}
-          cp target/${{ matrix.target }}/release/${{ matrix.artifact_name }} ${{ matrix.asset_name }}
+          cp target/${{ matrix.target }}/release/${{ matrix.artifact_name }} ${{ matrix.artifact_name }}
 
       - name: Build
         if: matrix.cross == false
         run: |
           rustup target add ${{ matrix.target }}
           cargo build --verbose --release --target ${{ matrix.target }}
-          cp target/${{ matrix.target }}/release/${{ matrix.artifact_name }} ${{ matrix.asset_name }}
+          cp target/${{ matrix.target }}/release/${{ matrix.artifact_name }} ${{ matrix.artifact_name }}
 
       - name: Archive as tar.gz
-        run: tar -czvf ${{ matrix.asset_name }}.tar.gz ${{ matrix.asset_name }}
+        run: tar -czvf ${{ matrix.asset_name }}.tar.gz ${{ matrix.artifact_name }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
