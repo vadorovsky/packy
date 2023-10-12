@@ -15,6 +15,7 @@ enum ArchiveType {
     Bzip2,
     Xz,
     Zip,
+    Zstd,
     Unknown,
 }
 
@@ -47,6 +48,7 @@ fn main() -> anyhow::Result<()> {
         [0x42, 0x5a, 0x68, ..] => ArchiveType::Bzip2,
         [0xfd, b'7', b'z', b'X', b'Z', 0x00] => ArchiveType::Xz,
         [0x50, 0x4B, 0x03, 0x04, ..] => ArchiveType::Zip,
+        [0x28, 0xb5, 0x2f, 0xfd, ..] => ArchiveType::Zstd,
         _ => ArchiveType::Unknown,
     };
 
@@ -72,6 +74,11 @@ fn main() -> anyhow::Result<()> {
         ArchiveType::Zip => {
             let mut archive = zip::ZipArchive::new(buf)?;
             packy_zip(&mut archive, args)?;
+        }
+        ArchiveType::Zstd => {
+            let decoder = zstd::stream::Decoder::new(buf)?;
+            let mut archive = Archive::new(decoder);
+            packy(&mut archive, args)?;
         }
         ArchiveType::Unknown => {
             eprintln!("The file is neither a gzip nor a bzip2 archive");
