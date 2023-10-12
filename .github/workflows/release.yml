@@ -78,4 +78,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            ${{ matrix.asset_name }}
+            ${{ matrix.asset_name }}.tar.gz
