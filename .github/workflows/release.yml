@@ -22,27 +22,27 @@ jobs:
             cross: true
             artifact_name: packy
             target: x86_64-unknown-linux-musl
-            asset_name: packy-linux-amd64
+            asset_name: packy-x86_64-unknown-linux-musl
           - os: ubuntu-latest
             cross: true
             artifact_name: packy
             target: aarch64-unknown-linux-musl
-            asset_name: packy-linux-arm64
+            asset_name: packy-aarch64-unknown-linux-musl
           - os: windows-latest
             cross: false
             artifact_name: packy.exe
             target: x86_64-pc-windows-msvc
-            asset_name: packy-windows-amd64.exe
+            asset_name: packy-x86_64-pc-windows-msvc
           - os: macos-latest
             cross: false
             artifact_name: packy
             target: x86_64-apple-darwin
-            asset_name: packy-macos-amd64
+            asset_name: packy-x86_64-apple-darwin
           - os: macos-latest
             cross: false
             artifact_name: packy
             target: aarch64-apple-darwin
-            asset_name: packy-macos-arm64
+            asset_name: packy-aarch64-apple-darwin
 
     steps:
       - name: Checkout project
@@ -68,6 +68,9 @@ jobs:
           rustup target add ${{ matrix.target }}
           cargo build --verbose --release --target ${{ matrix.target }}
           cp target/${{ matrix.target }}/release/${{ matrix.artifact_name }} ${{ matrix.asset_name }}
+
+      - name: Archive as tar.gz
+        run: tar -czvf ${{ matrix.asset_name }}.tar.gz ${{ matrix.asset_name }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
